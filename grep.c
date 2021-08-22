@@ -1,7 +1,10 @@
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include "grep.h"
 #define MIN(a, b) (((a) < (b))? (a) : (b))
 #define MAX(a, b) (((a) > (b))? (a) : (b))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -40,4 +43,17 @@ int grep_line(const char *str, const char *pattern) {
         }
     }
     return -1;
+}
+
+void grep(FILE *fp, const char *pattern) {
+    char *line = NULL;
+    size_t len = 0;
+    while (getline(&line, &len, fp) != -1) {
+        if (grep_line(line, pattern) != -1) {
+            printf("%s", line);
+        }
+    }
+
+    free(line);
+    fclose(fp);
 }

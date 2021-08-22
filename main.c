@@ -1,9 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "grep.h"
 
-int main(void) {
-    printf("%d\n", grep_line("hogehoge", "hoge"));
-    printf("%d\n", grep_line("hogefuga", "fuga"));
-    printf("%d\n", grep_line("hogefuga", "moge"));
+int main(int argc, char *argv[]) {
+    if (argc < 2 || argc > 3) {
+        fprintf(stderr, "Usage: %s PATTERN [FILE]", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    const char *pattern = argv[1];
+    FILE *fp;
+    if (argc == 3) {
+        const char *filepath = argv[2];
+        fp = fopen(filepath, "r");
+        if (fp == NULL) {
+            perror(filepath);
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        fp = stdin;
+    }
+    grep(fp, pattern);
     return 0;
 }
