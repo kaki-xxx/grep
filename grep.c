@@ -15,6 +15,7 @@ int grep_line(const char *str, const char *pattern) {
      *
      * @param[in] str 検索対象となる文字列
      * @param[in] pattern 検索する文字列
+     * @return strにpatternが見つかった最初の位置
      */
     size_t str_len = strlen(str);
     size_t pattern_len = strlen(pattern);
